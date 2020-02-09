@@ -24,5 +24,26 @@ public class MajorityElement169 {
         }
         return -1;
     }
-    // 2. 位运算法
+
+    // 法 2：位运算
+    // 将数组中的元素均写成 二进制形式，每一位分别与 mask = 1，mask <<= 1 相与
+    // 统计出每一列上的位 出现 1 的个数
+    // 将 1 过半的二进制数保存下来，组合在一起就是数组中过半的元素
+    public int majorityElement3(int[] nums) {
+        int cur = 0;
+        for (int i = 0, mask = 1; i < 32; i++, mask <<= 1) {
+            int bit = 0;
+            // 计算当前列 1 的个数
+            for (int j = 0; j < nums.length; j++) {
+                if ((mask & nums[j]) == mask) {
+                    bit++;
+                }
+            }
+            // 判断当前列的 1的个数
+            if (bit > (nums.length / 2)) {
+                cur |= mask;
+            }
+        }
+        return cur;
+    }
 }
